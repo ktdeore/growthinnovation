@@ -6,7 +6,7 @@
     <title>ShamPoooPlays Live Wheel</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
-        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap'); /* For footer */
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap');
         
         * {
             box-sizing: border-box;
@@ -22,14 +22,13 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center; /* Exactly center vertically */
-            height: 100vh; /* Fixed height, no scrolling */
+            justify-content: center;
+            height: 100vh;
             margin: 0;
-            overflow: hidden; /* Force hide scrollbars */
+            overflow: hidden;
             position: relative;
         }
 
-        /* Epic YouTube Floating Illustration Background */
         .yt-bg {
             position: absolute;
             top: 0; 
@@ -49,15 +48,16 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 90vh; /* Leave room for footer */
+            height: 90vh;
             width: 100%;
             z-index: 2;
         }
 
+        /* Logo size increased */
         .logo {
-            height: 10vh; /* Scale based on screen height */
-            min-height: 50px;
-            max-height: 80px;
+            height: 14vh; 
+            min-height: 80px;
+            max-height: 130px;
             object-fit: contain;
             margin-bottom: 2vh;
             border-radius: 12px;
@@ -66,7 +66,7 @@
 
         h1 {
             color: #ffffff;
-            font-size: clamp(20px, 4vh, 32px); /* Responsive font size */
+            font-size: clamp(20px, 4vh, 32px);
             font-weight: 800;
             margin: 0 0 3vh 0;
             letter-spacing: -0.5px;
@@ -80,7 +80,6 @@
 
         .wheel-container {
             position: relative;
-            /* Magic fix: Forces wheel to stay small enough to fit vertically */
             height: 45vh; 
             width: 45vh;
             max-width: 380px;
@@ -183,12 +182,11 @@
             transform: translateY(-2px);
         }
 
-        /* Footer styling */
         .footer {
             position: absolute;
             bottom: 2vh;
             color: rgba(255, 255, 255, 0.3);
-            font-family: 'Fira Code', monospace; /* Developer looking font */
+            font-family: 'Fira Code', monospace;
             font-size: 12px;
             letter-spacing: 2px;
             text-transform: uppercase;
@@ -198,36 +196,29 @@
 </head>
 <body>
 
-    <!-- Background YouTube Pattern -->
     <div class="yt-bg"></div>
 
     <div class="content-wrapper">
-        <!-- Logo -->
-        <img src="sigma-logo.jpeg" alt="Sigma Logo" class="logo">
+        <!-- Logo Updated to .png -->
+        <img src="sigma-logo.png" alt="Sigma Logo" class="logo">
 
-        <!-- Title -->
         <h1>ShamPoooPlays <span class="highlight">Live Wheel</span></h1>
 
-        <!-- Wheel -->
         <div class="wheel-container">
             <div class="pointer"></div>
             <canvas id="wheel" width="400" height="400"></canvas>
         </div>
 
-        <!-- Winner Display -->
         <div id="winner-text">Waiting for players</div>
 
-        <!-- Controls -->
         <div class="controls">
             <button class="spin-btn" onclick="spinWheel()">Spin The Wheel</button>
             <button class="again-btn" onclick="resetWheel()">Spin Again</button>
         </div>
     </div>
 
-    <!-- Made By Footer -->
     <div class="footer">&lt;/&gt; Made By N0tJarvis</div>
 
-    <!-- Audio Settings -->
     <audio id="spinSound" src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3"></audio>
     <audio id="winSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
 
@@ -242,7 +233,6 @@
         let currentDeg = 0;
         let isSpinning = false;
         
-        // Deep colors matching the dark/orange vibe
         const colors = ['#2b2b2b', '#ea4206', '#1a1a1a', '#ff7b00', '#252525', '#cc3300'];
 
         setInterval(async () => {
