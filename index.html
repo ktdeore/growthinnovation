@@ -3,105 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stream Giveaway Wheel</title>
+    <title>ShamPoooPlays Live Wheel</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@500&display=swap'); /* For footer */
+        
+        * {
+            box-sizing: border-box;
+        }
+
         body {
-            background-color: #111;
-            color: white;
+            background-color: #080504;
+            background-image: 
+                radial-gradient(circle at 15% 50%, rgba(200, 70, 0, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 85% 30%, rgba(255, 50, 0, 0.12) 0%, transparent 50%);
+            color: #ffffff;
             font-family: 'Poppins', sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
+            justify-content: center; /* Exactly center vertically */
+            height: 100vh; /* Fixed height, no scrolling */
             margin: 0;
-            overflow: hidden;
+            overflow: hidden; /* Force hide scrollbars */
+            position: relative;
         }
+
+        /* Epic YouTube Floating Illustration Background */
+        .yt-bg {
+            position: absolute;
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 576 512'%3E%3Cpath fill='%23ff0000' fill-opacity='0.03' d='M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z'/%3E%3C/svg%3E");
+            background-size: 120px;
+            background-position: center;
+            z-index: 1;
+            pointer-events: none;
+            transform: rotate(-10deg) scale(1.2);
+        }
+
+        .content-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 90vh; /* Leave room for footer */
+            width: 100%;
+            z-index: 2;
+        }
+
+        .logo {
+            height: 10vh; /* Scale based on screen height */
+            min-height: 50px;
+            max-height: 80px;
+            object-fit: contain;
+            margin-bottom: 2vh;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(255, 100, 0, 0.2);
+        }
+
         h1 {
-            color: #00ffcc;
-            text-shadow: 0 0 10px #00ffcc;
-            margin-bottom: 30px;
+            color: #ffffff;
+            font-size: clamp(20px, 4vh, 32px); /* Responsive font size */
+            font-weight: 800;
+            margin: 0 0 3vh 0;
+            letter-spacing: -0.5px;
+            text-align: center;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
         }
+
+        .highlight {
+            color: #ff6b00;
+        }
+
         .wheel-container {
             position: relative;
-            width: 400px;
-            height: 400px;
+            /* Magic fix: Forces wheel to stay small enough to fit vertically */
+            height: 45vh; 
+            width: 45vh;
+            max-width: 380px;
+            max-height: 380px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
+
         canvas {
             width: 100%;
             height: 100%;
             border-radius: 50%;
-            box-shadow: 0 0 30px rgba(0, 255, 204, 0.4);
-            transition: transform 5s cubic-bezier(0.17, 0.67, 0.12, 0.99); /* Smooth Spin */
+            box-shadow: 0 0 40px rgba(255, 107, 0, 0.2);
+            border: 4px solid #1a1a1a;
+            transition: transform 5s cubic-bezier(0.15, 0.65, 0.1, 1);
         }
+
         .pointer {
             position: absolute;
-            top: -20px;
+            top: -4%;
             left: 50%;
             transform: translateX(-50%);
             width: 0; 
             height: 0; 
-            border-left: 20px solid transparent;
-            border-right: 20px solid transparent;
-            border-top: 40px solid #ff0055;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-top: 28px solid #ff6b00;
             z-index: 10;
-            filter: drop-shadow(0 0 5px #ff0055);
+            filter: drop-shadow(0 4px 10px rgba(255, 107, 0, 0.5));
         }
+
+        #winner-text {
+            margin-top: 3vh;
+            font-size: clamp(16px, 3.5vh, 22px);
+            font-weight: 800;
+            color: #aaaaaa;
+            min-height: 5vh;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .winner-pop {
+            color: #ffffff !important;
+            font-size: clamp(22px, 5vh, 30px) !important;
+            text-shadow: 0 0 20px #ff6b00, 0 0 40px #ff3300 !important;
+            animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes popIn {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         .controls {
-            margin-top: 40px;
+            margin-top: 2vh;
             display: flex;
-            gap: 20px;
+            gap: 15px;
+            flex-wrap: wrap;
+            justify-content: center;
         }
+
         button {
-            padding: 15px 30px;
-            font-size: 18px;
+            padding: 1.5vh 3vh;
+            font-size: clamp(12px, 2vh, 16px);
             font-family: 'Poppins', sans-serif;
-            font-weight: bold;
+            font-weight: 800;
             cursor: pointer;
             border: none;
             border-radius: 8px;
-            transition: 0.3s;
+            transition: all 0.3s ease;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
+
         .spin-btn {
-            background: linear-gradient(45deg, #00ffcc, #0066ff);
-            color: #111;
-            box-shadow: 0 0 15px #00ffcc;
+            background: linear-gradient(90deg, #ff7b00, #ea4206);
+            color: #ffffff;
+            box-shadow: 0 4px 15px rgba(234, 66, 6, 0.3);
         }
-        .spin-btn:hover { box-shadow: 0 0 30px #00ffcc; transform: scale(1.05); }
+
+        .spin-btn:hover {
+            background: linear-gradient(90deg, #ff8c20, #ff500e);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(234, 66, 6, 0.5);
+        }
+
         .again-btn {
-            background: #222;
-            color: white;
-            border: 2px solid #555;
+            background-color: transparent;
+            color: #ff6b00;
+            border: 2px solid #ff6b00;
         }
-        .again-btn:hover { border-color: #00ffcc; }
-        
-        #winner-text {
-            margin-top: 20px;
-            font-size: 30px;
-            color: #ff0055;
-            text-shadow: 0 0 15px #ff0055;
-            min-height: 45px;
+
+        .again-btn:hover {
+            background-color: rgba(255, 107, 0, 0.1);
+            color: #ffffff;
+            border-color: #ff8c20;
+            transform: translateY(-2px);
+        }
+
+        /* Footer styling */
+        .footer {
+            position: absolute;
+            bottom: 2vh;
+            color: rgba(255, 255, 255, 0.3);
+            font-family: 'Fira Code', monospace; /* Developer looking font */
+            font-size: 12px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            z-index: 10;
         }
     </style>
 </head>
 <body>
 
-    <h1>GIVEAWAY SPIN 🌀</h1>
+    <!-- Background YouTube Pattern -->
+    <div class="yt-bg"></div>
 
-    <div class="wheel-container">
-        <div class="pointer"></div>
-        <canvas id="wheel" width="400" height="400"></canvas>
+    <div class="content-wrapper">
+        <!-- Logo -->
+        <img src="sigma-logo.jpeg" alt="Sigma Logo" class="logo">
+
+        <!-- Title -->
+        <h1>ShamPoooPlays <span class="highlight">Live Wheel</span></h1>
+
+        <!-- Wheel -->
+        <div class="wheel-container">
+            <div class="pointer"></div>
+            <canvas id="wheel" width="400" height="400"></canvas>
+        </div>
+
+        <!-- Winner Display -->
+        <div id="winner-text">Waiting for players</div>
+
+        <!-- Controls -->
+        <div class="controls">
+            <button class="spin-btn" onclick="spinWheel()">Spin The Wheel</button>
+            <button class="again-btn" onclick="resetWheel()">Spin Again</button>
+        </div>
     </div>
 
-    <div id="winner-text">Waiting for players...</div>
+    <!-- Made By Footer -->
+    <div class="footer">&lt;/&gt; Made By N0tJarvis</div>
 
-    <div class="controls">
-        <button class="spin-btn" onclick="spinWheel()">🔥 SPIN THE WHEEL 🔥</button>
-        <button class="again-btn" onclick="resetWheel()">🔄 AGAIN</button>
-    </div>
-
+    <!-- Audio Settings -->
     <audio id="spinSound" src="https://assets.mixkit.co/active_storage/sfx/2003/2003-preview.mp3"></audio>
     <audio id="winSound" src="https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3"></audio>
 
@@ -110,23 +236,25 @@
         const ctx = canvas.getContext('2d');
         const spinSound = document.getElementById('spinSound');
         const winSound = document.getElementById('winSound');
+        const winnerText = document.getElementById('winner-text');
         
         let names = [];
         let currentDeg = 0;
         let isSpinning = false;
-        const colors = ['#f39c12', '#e74c3c', '#9b59b6', '#3498db', '#1abc9c', '#e67e22', '#2ecc71', '#34495e'];
+        
+        // Deep colors matching the dark/orange vibe
+        const colors = ['#2b2b2b', '#ea4206', '#1a1a1a', '#ff7b00', '#252525', '#cc3300'];
 
-        // Auto-fetch players from Python Bot every 2 seconds
         setInterval(async () => {
-            if(isSpinning) return; // Wheel ghumte waqt data update mat karo
+            if(isSpinning) return; 
             try {
                 let res = await fetch('/get_players');
                 let data = await res.json();
                 
-                // Only redraw if the list of names changed
                 if(JSON.stringify(data.players) !== JSON.stringify(names)) {
-                    names = data.players.length > 0 ? data.players : ["Waiting..."];
-                    document.getElementById('winner-text').innerText = `Total Players: ${names[0] === "Waiting..." ? 0 : names.length}`;
+                    names = data.players.length > 0 ? data.players : ["Waiting"];
+                    winnerText.innerText = `Total Players: ${names[0] === "Waiting" ? 0 : names.length}`;
+                    winnerText.classList.remove('winner-pop'); 
                     drawWheel();
                 }
             } catch (err) {}
@@ -146,29 +274,33 @@
                 ctx.arc(centerX, centerY, radius, i * sliceAngle, (i + 1) * sliceAngle);
                 ctx.lineTo(centerX, centerY);
                 ctx.fill();
+                
+                ctx.strokeStyle = '#080504';
+                ctx.lineWidth = 3;
                 ctx.stroke();
 
-                // Draw Text
                 ctx.save();
                 ctx.translate(centerX, centerY);
                 ctx.rotate(i * sliceAngle + sliceAngle / 2);
                 ctx.textAlign = "right";
-                ctx.fillStyle = "#fff";
-                ctx.font = "bold 20px Poppins";
-                ctx.fillText(names[i], radius - 20, 10);
+                ctx.fillStyle = "#ffffff";
+                ctx.font = "bold 18px Poppins";
+                ctx.fillText(names[i], radius - 30, 6);
                 ctx.restore();
             }
         }
 
         function spinWheel() {
-            if (isSpinning || names.length === 0 || names[0] === "Waiting...") return;
+            if (isSpinning || names.length === 0 || names[0] === "Waiting") return;
             isSpinning = true;
-            document.getElementById('winner-text').innerText = "Spinning... 🎲";
+            
+            winnerText.classList.remove('winner-pop');
+            winnerText.innerText = "Spinning...";
+            winnerText.style.color = "#ff6b00";
             
             spinSound.currentTime = 0;
             spinSound.play();
 
-            // Random rotation (5-10 extra full spins + random slice)
             let extraSpins = Math.floor(Math.random() * 5) + 5;
             let randomDeg = Math.floor(Math.random() * 360);
             let totalRotation = currentDeg + (360 * extraSpins) + randomDeg;
@@ -176,30 +308,28 @@
             canvas.style.transform = `rotate(${totalRotation}deg)`;
             currentDeg = totalRotation;
 
-            // Wait for animation to finish (5 seconds)
             setTimeout(() => {
                 isSpinning = false;
                 spinSound.pause();
                 winSound.play();
 
-                // Calculate Winner mathematically
                 let actualDeg = currentDeg % 360;
-                // Pointer is at TOP (270 degrees in canvas math relative to drawing)
                 let adjustedDeg = (360 - actualDeg + 270) % 360; 
                 let sliceDeg = 360 / names.length;
                 let winnerIndex = Math.floor(adjustedDeg / sliceDeg);
                 
-                document.getElementById('winner-text').innerHTML = `🎉 WINNER: ${names[winnerIndex]} 🎉`;
+                winnerText.innerHTML = `🏆 ${names[winnerIndex]} 🏆`;
+                winnerText.classList.add('winner-pop');
             }, 5000);
         }
 
         function resetWheel() {
             if(isSpinning) return;
-            document.getElementById('winner-text').innerText = "Ready!";
-            // Note: Does not clear names. Terminal se "gwy start" karne par names clear honge.
+            winnerText.classList.remove('winner-pop');
+            winnerText.style.color = "#aaaaaa";
+            winnerText.innerText = "Ready To Spin";
         }
 
-        // Draw initially
         drawWheel();
     </script>
 </body>
